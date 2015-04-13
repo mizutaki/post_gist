@@ -1,8 +1,7 @@
 require 'octokit'
 require 'yaml'
-require 'pry'
-require 'pp'
 
+# 一つのGistを表すクラス
 class Gist
   attr_reader :file_name, :file_content, :description, :public
   def initialize(file_name, file_content, description, public)
@@ -12,7 +11,8 @@ class Gist
     @public  = public
   end
 
-  def create_gist_content
+  # Gistを作成するすためのhashを作成する
+  def create_content
     gist_content = {}
     gist_content["description"] = @description
     gist_content["public"] = @public
@@ -25,25 +25,24 @@ class Gist
   end
 end
 
-config = YAML.load_file("config.yml")
-cl = Octokit::Client.new(access_token: config['access_token'])
-exec_path = File.expand_path(File.dirname(__FILE__))
-files = []
+#実行パス配下の拡張子が.rbファイルの名前を取得
+file_names = []
 Dir.entries(".").each do |file|
-  files << file if file != __FILE__ && File.extname(file) == '.rb'
+  file_names << file if file != __FILE__ && File.extname(file) == '.rb'
 end
 
-gist_files = []
-files.each do |file|
-  File.open(file, 'r') do |file|
-    puts file.class
-    gist = Gist.new(file.path, file.read, "", true)
-    gist_files << gist
+#octokit初期化
+config = YAML.load_file("config.yml")
+cl = Octokit::Client.new(access_token: config['access_token'])
+
+gist_list = []
+file_names.each do |file_name|
+  File.open(file_name, 'r') do |file|
+    gist = Gist.new(file.path, file.read, config["description"], config["public"])
+    gist_list << gist.create_content
   end
 end
 
-gist_files.each do |gist|
-  g = gist.create_gist_content
-  pp g
-  cl.create_gist(g)
+gist_list.each do |gist|
+  cl.create_gist(gist)
 end
