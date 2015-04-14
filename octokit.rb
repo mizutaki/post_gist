@@ -1,5 +1,11 @@
 require 'octokit'
 require 'yaml'
+require 'fileutils'
+require 'logger'
+
+#Loggerの設定
+FileUtils.mkdir('log') unless File.exists?('./log')
+logger = Logger.new('./log/octokit.log')
 
 # 一つのGistを表すクラス
 class Gist
@@ -45,4 +51,5 @@ end
 
 gist_list.each do |gist|
   cl.create_gist(gist)
+  logger.info gist
 end
