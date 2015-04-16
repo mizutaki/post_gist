@@ -30,27 +30,19 @@ class Gist
     return gist_content
   end
 end
-=begin
-#実行パス配下の拡張子が.rbファイルの名前を取得
-file_names = []
-Dir.entries(".").each do |file|
-  file_names << file if file != __FILE__ && File.extname(file) == '.rb'
-end
-=end
 
 file_path = ARGV[0]
 raise ArgumentError, "引数のファイルパスが入力されていません。" if file_path.nil?
 raise IOError, "引数に指定されたファイル#{file_path}が存在しません。" unless File.exists?(file_path)
+
 #octokit初期化
 config = YAML.load_file("config.yml")
 cl = Octokit::Client.new(access_token: config['access_token'])
 
 gist_list = []
-file_names.each do |file_name|
-  File.open(file_name, 'r') do |file|
-    gist = Gist.new(file.path, file.read, config["description"], config["public"])
-    gist_list << gist.create_content
-  end
+File.open(file_path, 'r') do |file|
+  gist = Gist.new(file.path, file.read, config["description"], config["public"])
+  gist_list << gist.create_content
 end
 
 gist_list.each do |gist|
