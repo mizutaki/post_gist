@@ -40,7 +40,7 @@ end
 
 file_path = ARGV[0]
 raise ArgumentError, "引数のファイルパスが入力されていません。" if file_path.nil?
-
+raise IOError, "引数に指定されたファイル#{file_path}が存在しません。" unless File.exists?(file_path)
 #octokit初期化
 config = YAML.load_file("config.yml")
 cl = Octokit::Client.new(access_token: config['access_token'])
