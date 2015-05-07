@@ -8,8 +8,12 @@ puts Tk::TkDND::DND.version
 
 label = TkLabel.new{
 	text "ココにファイルをDROPしてください"
+	fg 'blue'
+	bg 'white'
 	width 50
 	height 10
+	
+	
   dnd_bindtarget('text/uri-list', '<Drop>', '%D'){|event|
     file_path = event[0]
     gist = Gist.new
