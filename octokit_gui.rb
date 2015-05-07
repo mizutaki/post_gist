@@ -6,11 +6,11 @@ Tk::TkDND::DND
 
 puts Tk::TkDND::DND.version
 
-Tk.root.title("gist")
+Tk.root.title("gist")#window title
 label = TkLabel.new{
 	text "ココにファイルをDROPしてください"
-	fg 'blue'
-	bg 'white'
+	fg 'blue' #text color
+	bg 'white'#background color
 	width 50
 	height 10
 	
@@ -25,5 +25,6 @@ label = TkLabel.new{
 	}
 	pack
 }
+Tk.root.resizable(0, 0)#window�T�C�Y�̌Œ�
 
 Tk.mainloop
