@@ -6,6 +6,7 @@ Tk::TkDND::DND
 
 puts Tk::TkDND::DND.version
 
+Tk.root.title("gist")
 label = TkLabel.new{
 	text "ココにファイルをDROPしてください"
 	fg 'blue'
