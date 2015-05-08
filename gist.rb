@@ -10,8 +10,9 @@ class Gist
   end
 
   #Gistを作成する
-  def create_gist(file_name, file_content)
-    gist_content = create_content(file_name, file_content)
+  def create_gist(file_name, file_content, file_description)
+    gist_content = create_content(file_name, file_content, file_description)
+    puts gist_content
     @client.create_gist(gist_content)
   end
   
@@ -24,9 +25,9 @@ class Gist
 
   private
   # Gistを作成するすためのhashを作成する
-  def create_content(name, content)
+  def create_content(name, content, description)
     gist_content = {}
-    gist_content["description"] = @config["description"]
+    gist_content["description"] = description
     gist_content["public"] = @config["public"]
     file_content = {}
     file_content["content"] = content
