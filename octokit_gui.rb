@@ -23,7 +23,7 @@ label = TkLabel.new{
     gist = Gist.new
     File.open(file_path, 'r') do |file|
       file_name=File::basename(file.path)
-      gist.create_gist(file_name, file.read, file_description)
+      gist.create_gist(file_name, file.read, file_description.value)
     end
 	}
 	pack
