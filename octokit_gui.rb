@@ -32,8 +32,12 @@ label = TkLabel.new{
   text "Please File Description!!"
   pack
 }
-file_description = TkEntry.new.pack
 
+file_description = TkText.new do
+  width(70)
+  height(15)
+  pack('side' => 'top', 'fill' => 'both')
+end
 label = TkLabel.new.pack
 
 Tk.root.resizable(0, 0)#windowƒTƒCƒY‚ÌŒÅ’è
