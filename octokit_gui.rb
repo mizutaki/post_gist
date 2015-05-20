@@ -4,8 +4,6 @@ require_relative 'gist'
 
 Tk::TkDND::DND
 
-puts Tk::TkDND::DND.version
-
 root = TkRoot.new(:title=>"input sample")
 #TkButton.new(nil, :text => "exec", :command => proc{ sayHello(@text.value) }).pack        
 #TkButton.new(nil, :text => "finish", :command => proc{ exit }).pack
@@ -19,7 +17,8 @@ label = TkLabel.new{
 	height 10
 	
   dnd_bindtarget('text/uri-list', '<Drop>', '%D'){|event|
-    file_path = event[0]
+    u8str = event[0].encode("iso-8859-1", "utf-8").encode("iso-8859-1", "utf-8")
+    file_path = u8str.encode('cp932', 'utf-8')
     gist = Gist.new
     File.open(file_path, 'r') do |file|
       file_name=File::basename(file.path)
