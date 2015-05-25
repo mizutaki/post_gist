@@ -16,11 +16,17 @@ class Gist
     @client.create_gist(gist_content)
   end
   
-  def get_gists
-    gists = cl.gists(config['account_name'])
+  #gist一覧を取得する
+  #key:gistid,value:filenameのhashのリストを返す
+  def gist_list
+    gists = @client.gists(config['account_name'])
+    gist_list = []
     gists.each do |gist|
-      puts gist.id
+      hash = {}
+      hash[gist.id] = gist.files.first.first
+      gist_list << hash
     end
+    return gist_list
   end
 
   private
