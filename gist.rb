@@ -10,6 +10,9 @@ class Gist
   end
 
   #Gistを作成する
+  #file_name ファイル名
+  #file_content ファイルの内容
+  #file_description ファイルの説明
   def create_gist(file_name, file_content, file_description)
     gist_content = create_content(file_name, file_content, file_description)
     puts gist_content
@@ -27,6 +30,16 @@ class Gist
       gist_list << hash
     end
     return gist_list
+  end
+
+  #gistを編集する
+  #id 編集するgistのid
+  #file_name ファイル名
+  #file_content ファイルの内容
+  #file_description ファイルの説明
+  def edit_gist(id, file_name, file_content, file_description)
+    file = create_content(file_name, file_content, file_description)
+    @client.edit_gist(id, file)
   end
 
   private
